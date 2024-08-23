@@ -23,23 +23,22 @@ var zerocounter: int = 0
 var zerolimit: int 
 
 func _newproblem():
-	if remaining > 0:
+	if remaining > 0: #Counter to see how long left in the round
 		remaining = remaining - 1
 		num1 = randi_range(0,20)
 		num2 = randi_range(0,9)
 		if num1 >= num2: #Not going for negative answers here.
-			problem_box.text = str(num1) + "\n-" + str(num2)
-			attempts = 3
-			answer_box.text = ""
-			print(zerocounter)
 			if num1 == 0 and num2 == 0:
 				remaining = remaining + 1
 				_newproblem()
-			if num1 == 0 or num2 == 0:
+			if num1 == 0 or num2 == 0: #eliminates 0-0
 				zerocounter = zerocounter + 1
-				if zerocounter >= zerolimit:
+				if zerocounter >= zerolimit: #limiting problems involving zero
 					remaining = remaining + 1
 					_newproblem()
+			problem_box.text = str(num1) + "\n-" + str(num2)
+			attempts = 3
+			answer_box.text = ""#clear the answer box
 		else:
 			remaining = remaining + 1 #Need to add back not to cut the game short.
 			_newproblem()
@@ -92,6 +91,7 @@ func _gameover():
 	submit.visible = false
 	answer_box.visible = false
 	scoreboard.visible = false
+	player.visible = false
 	game_over.text = "Congratulations!\nYour score is " + str(score)
 	game_over.visible = true
 	play_again.disabled = false

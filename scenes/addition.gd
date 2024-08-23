@@ -23,28 +23,27 @@ var zerolimit: int
 var zerocounter: int = 0
 
 func _newproblem():
-	if remaining > 0:
+	if remaining > 0: #Counter to see how long left in the round
 		remaining = remaining - 1
-		num1 = randi_range(0,9)
+		num1 = randi_range(0,9) #increase the range to make problems harder. We're using this mostly like flash cards for the basic facts.
 		num2 = randi_range(0,9)
-		if num1 == 0 and num2 == 0:
-			remaining = remaining + 1
+		if num1 == 0 and num2 == 0: #0 + 0 is a little too easy so we're eliminating it altogether
+			remaining = remaining + 1 #Need to readd to remaining to avoid cutting the game short if we re-roll the problem
 			_newproblem()
-		if num1 == 0 or num2 == 0:
+		if num1 == 0 or num2 == 0: #This limits the number of times zero comes up as a problem. Some games half the problems were a number + 0.
 			zerocounter = zerocounter + 1
 			if zerocounter >= zerolimit:
 				remaining = remaining + 1
 				_newproblem()
 		problem_box.text = str(num1) + "\n+" + str(num2)
 		attempts = 3
-		answer_box.text = ""
-		print(zerocounter)
+		answer_box.text = "" #clear the answer box
 	else:
 		_gameover()
 
 func _ready():
 	score = 0
-	game_over.visible = false
+	game_over.visible = false #Hiding and disabling the Game Over features.
 	play_again.disabled = true
 	play_again.visible = false
 	main_menu.disabled = true
@@ -55,19 +54,19 @@ func _ready():
 	scoreboard.text = "Score: " + str(score)
 	
 func _solver():
-	if int(answer_box.text) == num1 + num2:
-		score = score + 25 + (25 * attempts)
+	if int(answer_box.text) == num1 + num2: 
+		score = score + 25 + (25 * attempts) #This gives a perfect score of 100, or 75 on the second try, 50 on the third.
 		scoreboard.text = "Score: " + str(score)
-		if randi_range(0,1) == 1:
+		if randi_range(0,1) == 1:#Randomly play one of the success sounds
 			yay.play()
 		else:
 			woohoo.play()
-		ani_timer.start(1)
+		ani_timer.start(1) #Using the timer to stop the success animation
 		player.play("correct")
 		_newproblem()
 	else:
 		attempts = attempts - 1
-		if randi_range(0,1) == 1:
+		if randi_range(0,1) == 1:#Randomly play one of the failure sounds
 			awman.play()
 		else:
 			ohno.play()
@@ -82,10 +81,12 @@ func _on_answer_box_text_submitted(_new_text):
 	_solver()
 
 func _gameover():
+	#Hiding game assets and showing game over ones
 	problem_box.visible = false
 	submit.visible = false
 	answer_box.visible = false
 	scoreboard.visible = false
+	player.visible = false
 	game_over.text = "Congratulations!\nYour score is " + str(score)
 	game_over.visible = true
 	play_again.disabled = false
