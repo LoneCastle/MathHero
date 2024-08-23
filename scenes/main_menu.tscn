@@ -20,13 +20,22 @@ offset_bottom = 71.0
 text = "Subtraction
 "
 
-[node name="Quit" type="Button" parent="."]
+[node name="Multiplication" type="Button" parent="."]
 offset_left = 5.0
 offset_top = 75.0
-offset_right = 47.0
+offset_right = 120.0
 offset_bottom = 106.0
+text = "Multiplication
+"
+
+[node name="Quit" type="Button" parent="."]
+offset_left = 5.0
+offset_top = 110.0
+offset_right = 47.0
+offset_bottom = 141.0
 text = "Quit"
 
 [connection signal="pressed" from="Addition" to="." method="_on_addition_pressed"]
 [connection signal="pressed" from="Subtraction" to="." method="_on_subtraction_pressed"]
+[connection signal="pressed" from="Multiplication" to="." method="_on_multiplication_pressed"]
 [connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
