@@ -20,21 +20,36 @@ var num2: int
 var score: int = 0
 var attempts: int = 3
 var zerolimit: int
-var zerocounter: int = 0
+var zerocounter: int
+var onelimit: int
+var onecounter: int
 
 func _newproblem():
 	if remaining > 0: #Counter to see how long left in the round
-		remaining = remaining - 1
+		remaining -= 1
 		num1 = randi_range(0,9)
 		num2 = randi_range(0,9)
 		if num1 == 0 and num2 == 0:
-			remaining = remaining + 1
+			remaining += 1
 			_newproblem()
 		if num1 == 0 or num2 == 0: #eliminates 0x0
-			zerocounter = zerocounter + 1
 			if zerocounter >= zerolimit: #limiting problems involving 0
-				remaining = remaining + 1
+				remaining += 1
 				_newproblem()
+			else:
+				zerocounter += 1
+				problem_box.text = str(num1) + "\nx" + str(num2)
+				attempts = 3
+				answer_box.text = ""#clear the answer box
+		if num1 == 1 or num2 == 1: #limiting problems with 1
+			if onecounter >= onelimit:
+				remaining += 1
+				_newproblem()
+			else:
+				onecounter += 1
+				problem_box.text = str(num1) + "\nx" + str(num2)
+				attempts = 3
+				answer_box.text = ""#clear the answer box
 		problem_box.text = str(num1) + "\nx" + str(num2)
 		attempts = 3
 		answer_box.text = ""#clear the answer box
@@ -50,6 +65,8 @@ func _ready():
 	main_menu.visible = false
 	zerocounter = 0
 	zerolimit = 3
+	onecounter = 0
+	onelimit = 3
 	_newproblem()
 	scoreboard.text = "Score: " + str(score)
 	
@@ -65,7 +82,7 @@ func _solver():
 		player.play("correct")
 		_newproblem()
 	else:
-		attempts = attempts - 1
+		attempts -= 1
 		if randi_range(0,1) == 1:#Randomly play one of the failure sounds
 			awman.play()
 		else:
@@ -92,6 +109,7 @@ func _gameover():
 	play_again.visible = true
 	main_menu.disabled = false
 	main_menu.visible = true
+
 
 
 func _on_play_again_pressed():

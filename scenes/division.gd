@@ -25,26 +25,26 @@ var onecounter: int
 
 func _newproblem():
 	if remaining > 0: #Counter to see how long left in the round
-		remaining = remaining - 1
+		remaining -= 1
 		num1 = randi_range(2,100) #increase the range to make problems harder. We're using this mostly like flash cards for the basic facts.
 		num2 = randi_range(1,9)
 		ans = str(num1/num2)
 		if ans.is_valid_int(): #checking to see if the numbers are evenly divisible
 			if num2 == 1:
-				onecounter = onecounter + 1
+				onecounter += 1
 				if onecounter <= onelimit: #Every number is divisible by one, if we don't do this there will be a lot of problems dividing by one.
 					problem_box.text = str(num1) + "\n/" + str(num2)
 					attempts = 3
 					answer_box.text = "" #clear the answer box
 				else:
-					remaining = remaining + 1
+					remaining += 1
 					_newproblem()
 			else:
 				problem_box.text = str(num1) + "\n/" + str(num2)
 				attempts = 3
 				answer_box.text = "" #clear
 		else: 
-			remaining = remaining + 1
+			remaining += 1
 			_newproblem()
 	else:
 		_gameover()
@@ -73,7 +73,7 @@ func _solver():
 		player.play("correct")
 		_newproblem()
 	else:
-		attempts = attempts - 1
+		attempts -= 1
 		if randi_range(0,1) == 1:#Randomly play one of the failure sounds
 			awman.play()
 		else:
@@ -95,7 +95,7 @@ func _gameover():
 	answer_box.visible = false
 	scoreboard.visible = false
 	player.visible = false
-	game_over.text = "Congratulations!\nYour score is " + str(score)
+	game_over.text = "Congratulations!\nYour score is " + str(score) 
 	game_over.visible = true
 	play_again.disabled = false
 	play_again.visible = true

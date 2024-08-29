@@ -24,23 +24,23 @@ var zerolimit: int
 
 func _newproblem():
 	if remaining > 0: #Counter to see how long left in the round
-		remaining = remaining - 1
+		remaining -= 1
 		num1 = randi_range(0,20)
 		num2 = randi_range(0,9)
 		if num1 >= num2: #Not going for negative answers here.
 			if num1 == 0 and num2 == 0:
-				remaining = remaining + 1
+				remaining += 1
 				_newproblem()
 			if num1 == 0 or num2 == 0: #eliminates 0-0
-				zerocounter = zerocounter + 1
+				zerocounter += 1
 				if zerocounter >= zerolimit: #limiting problems involving zero
-					remaining = remaining + 1
+					remaining += 1
 					_newproblem()
 			problem_box.text = str(num1) + "\n-" + str(num2)
 			attempts = 3
 			answer_box.text = ""#clear the answer box
 		else:
-			remaining = remaining + 1 #Need to add back not to cut the game short.
+			remaining += 1 #Need to add back not to cut the game short.
 			_newproblem()
 	else:
 		_gameover()
@@ -70,7 +70,7 @@ func _solver():
 		player.play("correct")
 		_newproblem()
 	else:
-		attempts = attempts - 1
+		attempts -= 1
 		if randi_range(0,1) == 1: #Randomly play one of the failure sounds
 			awman.play()
 		else:

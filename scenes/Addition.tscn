@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=4 uid="uid://d13l5nikn3dfn"]
 
-[ext_resource type="Script" path="res://scenes/division.gd" id="1_q8qm3"]
+[ext_resource type="Script" path="res://scenes/addition.gd" id="1_64ah5"]
 [ext_resource type="AudioStream" uid="uid://btsfnnn308qcp" path="res://assets/sounds/ohno.wav" id="2_af6ia"]
 [ext_resource type="AudioStream" uid="uid://dgjy6e0h1giku" path="res://assets/sounds/awman.wav" id="3_dg4i0"]
 [ext_resource type="Script" path="res://scenes/answer_box.gd" id="3_jrqv7"]
@@ -47,7 +47,7 @@ animations = [{
 }]
 
 [node name="Addition" type="Node2D"]
-script = ExtResource("1_q8qm3")
+script = ExtResource("1_64ah5")
 remaining = 20
 
 [node name="ProblemBox" type="Label" parent="."]

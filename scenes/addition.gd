@@ -24,16 +24,16 @@ var zerocounter: int = 0
 
 func _newproblem():
 	if remaining > 0: #Counter to see how long left in the round
-		remaining = remaining - 1
+		remaining -= 1
 		num1 = randi_range(0,9) #increase the range to make problems harder. We're using this mostly like flash cards for the basic facts.
 		num2 = randi_range(0,9)
 		if num1 == 0 and num2 == 0: #0 + 0 is a little too easy so we're eliminating it altogether
-			remaining = remaining + 1 #Need to readd to remaining to avoid cutting the game short if we re-roll the problem
+			remaining += 1 #Need to readd to remaining to avoid cutting the game short if we re-roll the problem
 			_newproblem()
 		if num1 == 0 or num2 == 0: #This limits the number of times zero comes up as a problem. Some games half the problems were a number + 0.
-			zerocounter = zerocounter + 1
+			zerocounter += 1
 			if zerocounter >= zerolimit:
-				remaining = remaining + 1
+				remaining += 1
 				_newproblem()
 		problem_box.text = str(num1) + "\n+" + str(num2)
 		attempts = 3
@@ -65,7 +65,7 @@ func _solver():
 		player.play("correct")
 		_newproblem()
 	else:
-		attempts = attempts - 1
+		attempts -= 1
 		if randi_range(0,1) == 1:#Randomly play one of the failure sounds
 			awman.play()
 		else:
